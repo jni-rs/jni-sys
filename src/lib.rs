@@ -37,44 +37,44 @@ pub type jweak = jobject;
 #[repr(C)]
 #[derive(Copy)]
 pub struct jvalue {
-    pub data: u64,
+    pub _data: u64,
 }
 
 impl jvalue {
     pub unsafe fn z(&mut self) -> *mut jboolean {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn b(&mut self) -> *mut jbyte {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn c(&mut self) -> *mut jchar {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn s(&mut self) -> *mut jshort {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn i(&mut self) -> *mut jint {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn j(&mut self) -> *mut jlong {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn f(&mut self) -> *mut jfloat {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn d(&mut self) -> *mut jdouble {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 
     pub unsafe fn l(&mut self) -> *mut jobject {
-        &mut self.data as *mut _ as *mut _
+        &mut self._data as *mut _ as *mut _
     }
 }
 
