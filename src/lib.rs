@@ -37,45 +37,44 @@ pub type jweak = jobject;
 #[repr(C)]
 #[derive(Copy)]
 pub struct jvalue {
-    pub _bindgen_data_: [u64; 1],
+    pub data: u64,
 }
 
 impl jvalue {
     pub unsafe fn z(&mut self) -> *mut jboolean {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn b(&mut self) -> *mut jbyte {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn c(&mut self) -> *mut jchar {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn s(&mut self) -> *mut jshort {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn i(&mut self) -> *mut jint {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn j(&mut self) -> *mut jlong {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn f(&mut self) -> *mut jfloat {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn d(&mut self) -> *mut jdouble {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
+
     pub unsafe fn l(&mut self) -> *mut jobject {
-        let raw: *mut u8 = mem::transmute(&self._bindgen_data_);
-        mem::transmute(raw.offset(0))
+        &mut self.data as *mut _ as *mut _
     }
 }
 
@@ -84,6 +83,7 @@ impl Clone for jvalue {
         *self
     }
 }
+
 impl Default for jvalue {
     fn default() -> Self {
         unsafe { mem::zeroed() }
