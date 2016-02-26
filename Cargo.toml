@@ -1,0 +1,12 @@
+[package]
+name = "jni-sys"
+version = "0.1.0"
+authors = ["Steven Fackler <sfackler@gmail.com>"]
+license = "MIT/Apache-2.0"
+description = "Rust definitions corresponding to jni.h"
+repository = "https://github.com/sfackler/rust-jni-sys"
+documentation = "https://sfackler.github.io/rust-jni-sys/doc/v0.1.0/jni_sys"
+readme = "README.md"
+
+[dependencies]
+libc = "0.2"
