@@ -178,7 +178,7 @@ pub struct JNINativeInterface_ {
     pub ExceptionOccurred: unsafe extern "C" fn(env: *mut JNIEnv) -> jthrowable,
     pub ExceptionDescribe: unsafe extern "C" fn(env: *mut JNIEnv),
     pub ExceptionClear: unsafe extern "C" fn(env: *mut JNIEnv),
-    pub FatalError: unsafe extern "C" fn(env: *mut JNIEnv, msg: *const libc::c_char),
+    pub FatalError: unsafe extern "C" fn(env: *mut JNIEnv, msg: *const libc::c_char) -> !,
     pub PushLocalFrame: unsafe extern "C" fn(env: *mut JNIEnv, capacity: jint) -> jint,
     pub PopLocalFrame: unsafe extern "C" fn(env: *mut JNIEnv, result: jobject) -> jobject,
     pub NewGlobalRef: unsafe extern "C" fn(env: *mut JNIEnv, lobj: jobject) -> jobject,
