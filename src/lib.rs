@@ -1,3 +1,4 @@
+#![doc(html_root_url="https://sfackler.github.io/rust-jni-sys/doc/v0.1.0")]
 #![allow(non_snake_case, non_camel_case_types)]
 
 extern crate libc;
