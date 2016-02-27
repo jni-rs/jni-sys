@@ -191,7 +191,8 @@ pub struct JNINativeInterface_ {
     pub AllocObject: unsafe extern "C" fn(env: *mut JNIEnv, clazz: jclass) -> jobject,
     pub NewObject: unsafe extern "C" fn(env: *mut JNIEnv,
                                         clazz: jclass,
-                                        methodID: jmethodID, ...)
+                                        methodID: jmethodID,
+                                        ...)
                                         -> jobject,
     pub NewObjectV: unsafe extern "C" fn(env: *mut JNIEnv,
                                          clazz: jclass,
@@ -204,7 +205,8 @@ pub struct JNINativeInterface_ {
                                          args: *const jvalue)
                                          -> jobject,
     pub GetObjectClass: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject) -> jclass,
-    pub IsInstanceOf: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, clazz: jclass) -> jboolean,
+    pub IsInstanceOf: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, clazz: jclass)
+                                           -> jboolean,
     pub GetMethodID: unsafe extern "C" fn(env: *mut JNIEnv,
                                           clazz: jclass,
                                           name: *const libc::c_char,
@@ -212,7 +214,8 @@ pub struct JNINativeInterface_ {
                                           -> jmethodID,
     pub CallObjectMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                obj: jobject,
-                                               methodID: jmethodID, ...)
+                                               methodID: jmethodID,
+                                               ...)
                                                -> jobject,
     pub CallObjectMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                 obj: jobject,
@@ -226,7 +229,8 @@ pub struct JNINativeInterface_ {
                                                 -> jobject,
     pub CallBooleanMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                 obj: jobject,
-                                                methodID: jmethodID, ...)
+                                                methodID: jmethodID,
+                                                ...)
                                                 -> jboolean,
     pub CallBooleanMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                  obj: jobject,
@@ -240,7 +244,8 @@ pub struct JNINativeInterface_ {
                                                  -> jboolean,
     pub CallByteMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                              obj: jobject,
-                                             methodID: jmethodID, ...)
+                                             methodID: jmethodID,
+                                             ...)
                                              -> jbyte,
     pub CallByteMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
@@ -254,7 +259,8 @@ pub struct JNINativeInterface_ {
                                               -> jbyte,
     pub CallCharMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                              obj: jobject,
-                                             methodID: jmethodID, ...)
+                                             methodID: jmethodID,
+                                             ...)
                                              -> jchar,
     pub CallCharMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
@@ -268,7 +274,8 @@ pub struct JNINativeInterface_ {
                                               -> jchar,
     pub CallShortMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
-                                              methodID: jmethodID, ...)
+                                              methodID: jmethodID,
+                                              ...)
                                               -> jshort,
     pub CallShortMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                obj: jobject,
@@ -282,7 +289,8 @@ pub struct JNINativeInterface_ {
                                                -> jshort,
     pub CallIntMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                             obj: jobject,
-                                            methodID: jmethodID, ...)
+                                            methodID: jmethodID,
+                                            ...)
                                             -> jint,
     pub CallIntMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                              obj: jobject,
@@ -296,7 +304,8 @@ pub struct JNINativeInterface_ {
                                              -> jint,
     pub CallLongMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                              obj: jobject,
-                                             methodID: jmethodID, ...)
+                                             methodID: jmethodID,
+                                             ...)
                                              -> jlong,
     pub CallLongMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
@@ -310,7 +319,8 @@ pub struct JNINativeInterface_ {
                                               -> jlong,
     pub CallFloatMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
-                                              methodID: jmethodID, ...)
+                                              methodID: jmethodID,
+                                              ...)
                                               -> jfloat,
     pub CallFloatMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                obj: jobject,
@@ -324,7 +334,8 @@ pub struct JNINativeInterface_ {
                                                -> jfloat,
     pub CallDoubleMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                obj: jobject,
-                                               methodID: jmethodID, ...)
+                                               methodID: jmethodID,
+                                               ...)
                                                -> jdouble,
     pub CallDoubleMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                 obj: jobject,
@@ -338,22 +349,21 @@ pub struct JNINativeInterface_ {
                                                 -> jdouble,
     pub CallVoidMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                              obj: jobject,
-                                             methodID: jmethodID, ...)
-                                            ,
+                                             methodID: jmethodID,
+                                             ...),
     pub CallVoidMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
                                               methodID: jmethodID,
-                                              args: va_list)
-                                             ,
+                                              args: va_list),
     pub CallVoidMethodA: unsafe extern "C" fn(env: *mut JNIEnv,
                                               obj: jobject,
                                               methodID: jmethodID,
-                                              args: *const jvalue)
-                                             ,
+                                              args: *const jvalue),
     pub CallNonvirtualObjectMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                          obj: jobject,
                                                          clazz: jclass,
-                                                         methodID: jmethodID, ...)
+                                                         methodID: jmethodID,
+                                                         ...)
                                                          -> jobject,
     pub CallNonvirtualObjectMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                           obj: jobject,
@@ -370,7 +380,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualBooleanMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                           obj: jobject,
                                                           clazz: jclass,
-                                                          methodID: jmethodID, ...)
+                                                          methodID: jmethodID,
+                                                          ...)
                                                           -> jboolean,
     pub CallNonvirtualBooleanMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                            obj: jobject,
@@ -387,7 +398,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualByteMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                        obj: jobject,
                                                        clazz: jclass,
-                                                       methodID: jmethodID, ...)
+                                                       methodID: jmethodID,
+                                                       ...)
                                                        -> jbyte,
     pub CallNonvirtualByteMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         obj: jobject,
@@ -404,7 +416,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualCharMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                        obj: jobject,
                                                        clazz: jclass,
-                                                       methodID: jmethodID, ...)
+                                                       methodID: jmethodID,
+                                                       ...)
                                                        -> jchar,
     pub CallNonvirtualCharMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         obj: jobject,
@@ -421,7 +434,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualShortMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         obj: jobject,
                                                         clazz: jclass,
-                                                        methodID: jmethodID, ...)
+                                                        methodID: jmethodID,
+                                                        ...)
                                                         -> jshort,
     pub CallNonvirtualShortMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                          obj: jobject,
@@ -438,7 +452,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualIntMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                       obj: jobject,
                                                       clazz: jclass,
-                                                      methodID: jmethodID, ...)
+                                                      methodID: jmethodID,
+                                                      ...)
                                                       -> jint,
     pub CallNonvirtualIntMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                        obj: jobject,
@@ -455,7 +470,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualLongMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                        obj: jobject,
                                                        clazz: jclass,
-                                                       methodID: jmethodID, ...)
+                                                       methodID: jmethodID,
+                                                       ...)
                                                        -> jlong,
     pub CallNonvirtualLongMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         obj: jobject,
@@ -472,7 +488,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualFloatMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         obj: jobject,
                                                         clazz: jclass,
-                                                        methodID: jmethodID, ...)
+                                                        methodID: jmethodID,
+                                                        ...)
                                                         -> jfloat,
     pub CallNonvirtualFloatMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                          obj: jobject,
@@ -489,7 +506,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualDoubleMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                          obj: jobject,
                                                          clazz: jclass,
-                                                         methodID: jmethodID, ...)
+                                                         methodID: jmethodID,
+                                                         ...)
                                                          -> jdouble,
     pub CallNonvirtualDoubleMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                           obj: jobject,
@@ -506,7 +524,8 @@ pub struct JNINativeInterface_ {
     pub CallNonvirtualVoidMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                        obj: jobject,
                                                        clazz: jclass,
-                                                       methodID: jmethodID, ...)
+                                                       methodID: jmethodID,
+                                                       ...)
                                                       ,
     pub CallNonvirtualVoidMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         obj: jobject,
@@ -535,7 +554,8 @@ pub struct JNINativeInterface_ {
                                            -> jchar,
     pub GetShortField: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, fieldID: jfieldID)
                                             -> jshort,
-    pub GetIntField: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, fieldID: jfieldID) -> jint,
+    pub GetIntField: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, fieldID: jfieldID)
+                                          -> jint,
     pub GetLongField: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, fieldID: jfieldID)
                                            -> jlong,
     pub GetFloatField: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, fieldID: jfieldID)
@@ -585,7 +605,8 @@ pub struct JNINativeInterface_ {
                                                 -> jmethodID,
     pub CallStaticObjectMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                      clazz: jclass,
-                                                     methodID: jmethodID, ...)
+                                                     methodID: jmethodID,
+                                                     ...)
                                                      -> jobject,
     pub CallStaticObjectMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                       clazz: jclass,
@@ -599,7 +620,8 @@ pub struct JNINativeInterface_ {
                                                       -> jobject,
     pub CallStaticBooleanMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                       clazz: jclass,
-                                                      methodID: jmethodID, ...)
+                                                      methodID: jmethodID,
+                                                      ...)
                                                       -> jboolean,
     pub CallStaticBooleanMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                        clazz: jclass,
@@ -613,7 +635,8 @@ pub struct JNINativeInterface_ {
                                                        -> jboolean,
     pub CallStaticByteMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                    clazz: jclass,
-                                                   methodID: jmethodID, ...)
+                                                   methodID: jmethodID,
+                                                   ...)
                                                    -> jbyte,
     pub CallStaticByteMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     clazz: jclass,
@@ -627,7 +650,8 @@ pub struct JNINativeInterface_ {
                                                     -> jbyte,
     pub CallStaticCharMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                    clazz: jclass,
-                                                   methodID: jmethodID, ...)
+                                                   methodID: jmethodID,
+                                                   ...)
                                                    -> jchar,
     pub CallStaticCharMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     clazz: jclass,
@@ -641,7 +665,8 @@ pub struct JNINativeInterface_ {
                                                     -> jchar,
     pub CallStaticShortMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     clazz: jclass,
-                                                    methodID: jmethodID, ...)
+                                                    methodID: jmethodID,
+                                                    ...)
                                                     -> jshort,
     pub CallStaticShortMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                      clazz: jclass,
@@ -655,7 +680,8 @@ pub struct JNINativeInterface_ {
                                                      -> jshort,
     pub CallStaticIntMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                   clazz: jclass,
-                                                  methodID: jmethodID, ...)
+                                                  methodID: jmethodID,
+                                                  ...)
                                                   -> jint,
     pub CallStaticIntMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                    clazz: jclass,
@@ -669,7 +695,8 @@ pub struct JNINativeInterface_ {
                                                    -> jint,
     pub CallStaticLongMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                    clazz: jclass,
-                                                   methodID: jmethodID, ...)
+                                                   methodID: jmethodID,
+                                                   ...)
                                                    -> jlong,
     pub CallStaticLongMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     clazz: jclass,
@@ -683,7 +710,8 @@ pub struct JNINativeInterface_ {
                                                     -> jlong,
     pub CallStaticFloatMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     clazz: jclass,
-                                                    methodID: jmethodID, ...)
+                                                    methodID: jmethodID,
+                                                    ...)
                                                     -> jfloat,
     pub CallStaticFloatMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                      clazz: jclass,
@@ -697,7 +725,8 @@ pub struct JNINativeInterface_ {
                                                      -> jfloat,
     pub CallStaticDoubleMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                      clazz: jclass,
-                                                     methodID: jmethodID, ...)
+                                                     methodID: jmethodID,
+                                                     ...)
                                                      -> jdouble,
     pub CallStaticDoubleMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                       clazz: jclass,
@@ -711,17 +740,16 @@ pub struct JNINativeInterface_ {
                                                       -> jdouble,
     pub CallStaticVoidMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                    cls: jclass,
-                                                   methodID: jmethodID, ...),
+                                                   methodID: jmethodID,
+                                                   ...),
     pub CallStaticVoidMethodV: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     cls: jclass,
                                                     methodID: jmethodID,
-                                                    args: va_list)
-                                                   ,
+                                                    args: va_list),
     pub CallStaticVoidMethodA: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     cls: jclass,
                                                     methodID: jmethodID,
-                                                    args: *const jvalue)
-                                                   ,
+                                                    args: *const jvalue),
     pub GetStaticFieldID: unsafe extern "C" fn(env: *mut JNIEnv,
                                                clazz: jclass,
                                                name: *const libc::c_char,
