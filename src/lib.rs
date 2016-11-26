@@ -1,12 +1,13 @@
 #![doc(html_root_url="https://sfackler.github.io/rust-jni-sys/doc/v0.1.0")]
 #![allow(non_snake_case, non_camel_case_types)]
 
-extern crate libc;
+use std::os::raw::c_void;
+use std::os::raw::c_char;
 
 use std::mem;
 
 // FIXME is this sufficiently correct?
-pub type va_list = *mut libc::c_void;
+pub type va_list = *mut c_void;
 
 pub type jint = i32;
 pub type jlong = i64;
@@ -18,7 +19,7 @@ pub type jfloat = f32;
 pub type jdouble = f64;
 pub type jsize = jint;
 
-pub struct _jobject(libc::c_void);
+pub struct _jobject(c_void);
 pub type jobject = *mut _jobject;
 pub type jclass = jobject;
 pub type jthrowable = jobject;
@@ -91,9 +92,9 @@ impl Default for jvalue {
     }
 }
 
-pub struct _jfieldID(libc::c_void);
+pub struct _jfieldID(c_void);
 pub type jfieldID = *mut _jfieldID;
-pub struct _jmethodID(libc::c_void);
+pub struct _jmethodID(c_void);
 pub type jmethodID = *mut _jmethodID;
 
 #[derive(Clone, Copy)]
@@ -128,9 +129,9 @@ pub const JNI_VERSION_1_8: jint = 65544;
 #[repr(C)]
 #[derive(Copy)]
 pub struct JNINativeMethod {
-    pub name: *mut libc::c_char,
-    pub signature: *mut libc::c_char,
-    pub fnPtr: *mut libc::c_void,
+    pub name: *mut c_char,
+    pub signature: *mut c_char,
+    pub fnPtr: *mut c_void,
 }
 
 impl Clone for JNINativeMethod {
@@ -151,18 +152,18 @@ pub type JavaVM = *const JNIInvokeInterface_;
 #[repr(C)]
 #[derive(Copy)]
 pub struct JNINativeInterface_ {
-    pub reserved0: *mut libc::c_void,
-    pub reserved1: *mut libc::c_void,
-    pub reserved2: *mut libc::c_void,
-    pub reserved3: *mut libc::c_void,
+    pub reserved0: *mut c_void,
+    pub reserved1: *mut c_void,
+    pub reserved2: *mut c_void,
+    pub reserved3: *mut c_void,
     pub GetVersion: unsafe extern "C" fn(env: *mut JNIEnv) -> jint,
     pub DefineClass: unsafe extern "C" fn(env: *mut JNIEnv,
-                                          name: *const libc::c_char,
+                                          name: *const c_char,
                                           loader: jobject,
                                           buf: *const jbyte,
                                           len: jsize)
                                           -> jclass,
-    pub FindClass: unsafe extern "C" fn(env: *mut JNIEnv, name: *const libc::c_char) -> jclass,
+    pub FindClass: unsafe extern "C" fn(env: *mut JNIEnv, name: *const c_char) -> jclass,
     pub FromReflectedMethod: unsafe extern "C" fn(env: *mut JNIEnv, method: jobject) -> jmethodID,
     pub FromReflectedField: unsafe extern "C" fn(env: *mut JNIEnv, field: jobject) -> jfieldID,
     pub ToReflectedMethod: unsafe extern "C" fn(env: *mut JNIEnv,
@@ -179,12 +180,12 @@ pub struct JNINativeInterface_ {
                                                isStatic: jboolean)
                                                -> jobject,
     pub Throw: unsafe extern "C" fn(env: *mut JNIEnv, obj: jthrowable) -> jint,
-    pub ThrowNew: unsafe extern "C" fn(env: *mut JNIEnv, clazz: jclass, msg: *const libc::c_char)
+    pub ThrowNew: unsafe extern "C" fn(env: *mut JNIEnv, clazz: jclass, msg: *const c_char)
                                        -> jint,
     pub ExceptionOccurred: unsafe extern "C" fn(env: *mut JNIEnv) -> jthrowable,
     pub ExceptionDescribe: unsafe extern "C" fn(env: *mut JNIEnv),
     pub ExceptionClear: unsafe extern "C" fn(env: *mut JNIEnv),
-    pub FatalError: unsafe extern "C" fn(env: *mut JNIEnv, msg: *const libc::c_char) -> !,
+    pub FatalError: unsafe extern "C" fn(env: *mut JNIEnv, msg: *const c_char) -> !,
     pub PushLocalFrame: unsafe extern "C" fn(env: *mut JNIEnv, capacity: jint) -> jint,
     pub PopLocalFrame: unsafe extern "C" fn(env: *mut JNIEnv, result: jobject) -> jobject,
     pub NewGlobalRef: unsafe extern "C" fn(env: *mut JNIEnv, lobj: jobject) -> jobject,
@@ -215,8 +216,8 @@ pub struct JNINativeInterface_ {
                                            -> jboolean,
     pub GetMethodID: unsafe extern "C" fn(env: *mut JNIEnv,
                                           clazz: jclass,
-                                          name: *const libc::c_char,
-                                          sig: *const libc::c_char)
+                                          name: *const c_char,
+                                          sig: *const c_char)
                                           -> jmethodID,
     pub CallObjectMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                obj: jobject,
@@ -547,8 +548,8 @@ pub struct JNINativeInterface_ {
                                                        ,
     pub GetFieldID: unsafe extern "C" fn(env: *mut JNIEnv,
                                          clazz: jclass,
-                                         name: *const libc::c_char,
-                                         sig: *const libc::c_char)
+                                         name: *const c_char,
+                                         sig: *const c_char)
                                          -> jfieldID,
     pub GetObjectField: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject, fieldID: jfieldID)
                                              -> jobject,
@@ -606,8 +607,8 @@ pub struct JNINativeInterface_ {
                                              val: jdouble),
     pub GetStaticMethodID: unsafe extern "C" fn(env: *mut JNIEnv,
                                                 clazz: jclass,
-                                                name: *const libc::c_char,
-                                                sig: *const libc::c_char)
+                                                name: *const c_char,
+                                                sig: *const c_char)
                                                 -> jmethodID,
     pub CallStaticObjectMethod: unsafe extern "C" fn(env: *mut JNIEnv,
                                                      clazz: jclass,
@@ -758,8 +759,8 @@ pub struct JNINativeInterface_ {
                                                     args: *const jvalue),
     pub GetStaticFieldID: unsafe extern "C" fn(env: *mut JNIEnv,
                                                clazz: jclass,
-                                               name: *const libc::c_char,
-                                               sig: *const libc::c_char)
+                                               name: *const c_char,
+                                               sig: *const c_char)
                                                -> jfieldID,
     pub GetStaticObjectField: unsafe extern "C" fn(env: *mut JNIEnv,
                                                    clazz: jclass,
@@ -839,15 +840,15 @@ pub struct JNINativeInterface_ {
     pub ReleaseStringChars: unsafe extern "C" fn(env: *mut JNIEnv,
                                                  str: jstring,
                                                  chars: *const jchar),
-    pub NewStringUTF: unsafe extern "C" fn(env: *mut JNIEnv, utf: *const libc::c_char) -> jstring,
+    pub NewStringUTF: unsafe extern "C" fn(env: *mut JNIEnv, utf: *const c_char) -> jstring,
     pub GetStringUTFLength: unsafe extern "C" fn(env: *mut JNIEnv, str: jstring) -> jsize,
     pub GetStringUTFChars: unsafe extern "C" fn(env: *mut JNIEnv,
                                                 str: jstring,
                                                 isCopy: *mut jboolean)
-                                                -> *const libc::c_char,
+                                                -> *const c_char,
     pub ReleaseStringUTFChars: unsafe extern "C" fn(env: *mut JNIEnv,
                                                     str: jstring,
-                                                    chars: *const libc::c_char),
+                                                    chars: *const c_char),
     pub GetArrayLength: unsafe extern "C" fn(env: *mut JNIEnv, array: jarray) -> jsize,
     pub NewObjectArray: unsafe extern "C" fn(env: *mut JNIEnv,
                                              len: jsize,
@@ -1032,14 +1033,14 @@ pub struct JNINativeInterface_ {
                                                  str: jstring,
                                                  start: jsize,
                                                  len: jsize,
-                                                 buf: *mut libc::c_char),
+                                                 buf: *mut c_char),
     pub GetPrimitiveArrayCritical: unsafe extern "C" fn(env: *mut JNIEnv,
                                                         array: jarray,
                                                         isCopy: *mut jboolean)
-                                                        -> *mut libc::c_void,
+                                                        -> *mut c_void,
     pub ReleasePrimitiveArrayCritical: unsafe extern "C" fn(env: *mut JNIEnv,
                                                             array: jarray,
-                                                            carray: *mut libc::c_void,
+                                                            carray: *mut c_void,
                                                             mode: jint),
     pub GetStringCritical: unsafe extern "C" fn(env: *mut JNIEnv,
                                                 string: jstring,
@@ -1052,11 +1053,11 @@ pub struct JNINativeInterface_ {
     pub DeleteWeakGlobalRef: unsafe extern "C" fn(env: *mut JNIEnv, _ref: jweak),
     pub ExceptionCheck: unsafe extern "C" fn(env: *mut JNIEnv) -> jboolean,
     pub NewDirectByteBuffer: unsafe extern "C" fn(env: *mut JNIEnv,
-                                                  address: *mut libc::c_void,
+                                                  address: *mut c_void,
                                                   capacity: jlong)
                                                   -> jobject,
     pub GetDirectBufferAddress: unsafe extern "C" fn(env: *mut JNIEnv, buf: jobject)
-                                                     -> *mut libc::c_void,
+                                                     -> *mut c_void,
     pub GetDirectBufferCapacity: unsafe extern "C" fn(env: *mut JNIEnv, buf: jobject) -> jlong,
     pub GetObjectRefType: unsafe extern "C" fn(env: *mut JNIEnv, obj: jobject) -> jobjectRefType,
 }
@@ -1094,8 +1095,8 @@ impl Default for JNIEnv_ {
 #[repr(C)]
 #[derive(Copy)]
 pub struct JavaVMOption {
-    pub optionString: *mut libc::c_char,
-    pub extraInfo: *mut libc::c_void,
+    pub optionString: *mut c_char,
+    pub extraInfo: *mut c_void,
 }
 
 impl Clone for JavaVMOption {
@@ -1135,7 +1136,7 @@ impl Default for JavaVMInitArgs {
 #[derive(Copy)]
 pub struct JavaVMAttachArgs {
     pub version: jint,
-    pub name: *mut libc::c_char,
+    pub name: *mut c_char,
     pub group: jobject,
 }
 
@@ -1154,20 +1155,20 @@ impl Default for JavaVMAttachArgs {
 #[repr(C)]
 #[derive(Copy)]
 pub struct JNIInvokeInterface_ {
-    pub reserved0: *mut libc::c_void,
-    pub reserved1: *mut libc::c_void,
-    pub reserved2: *mut libc::c_void,
+    pub reserved0: *mut c_void,
+    pub reserved1: *mut c_void,
+    pub reserved2: *mut c_void,
     pub DestroyJavaVM: unsafe extern "C" fn(vm: *mut JavaVM) -> jint,
     pub AttachCurrentThread: unsafe extern "C" fn(vm: *mut JavaVM,
-                                                  penv: *mut *mut libc::c_void,
-                                                  args: *mut libc::c_void)
+                                                  penv: *mut *mut c_void,
+                                                  args: *mut c_void)
                                                   -> jint,
     pub DetachCurrentThread: unsafe extern "C" fn(vm: *mut JavaVM) -> jint,
-    pub GetEnv: unsafe extern "C" fn(vm: *mut JavaVM, penv: *mut *mut libc::c_void, version: jint)
+    pub GetEnv: unsafe extern "C" fn(vm: *mut JavaVM, penv: *mut *mut c_void, version: jint)
                                      -> jint,
     pub AttachCurrentThreadAsDaemon: unsafe extern "C" fn(vm: *mut JavaVM,
-                                                          penv: *mut *mut libc::c_void,
-                                                          args: *mut libc::c_void)
+                                                          penv: *mut *mut c_void,
+                                                          args: *mut c_void)
                                                           -> jint,
 }
 
