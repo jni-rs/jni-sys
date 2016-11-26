@@ -119,6 +119,12 @@ pub const JNI_EINVAL: jint = -6;
 pub const JNI_COMMIT: jint = 1;
 pub const JNI_ABORT: jint = 2;
 
+pub const JNI_VERSION_1_1: jint = 65537;
+pub const JNI_VERSION_1_2: jint = 65538;
+pub const JNI_VERSION_1_4: jint = 65540;
+pub const JNI_VERSION_1_6: jint = 65542;
+pub const JNI_VERSION_1_8: jint = 65544;
+
 #[repr(C)]
 #[derive(Copy)]
 pub struct JNINativeMethod {
