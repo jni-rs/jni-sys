@@ -1,6 +1,6 @@
 # jni-sys
 
-[Documentation](https://sfackler.github.io/rust-jni-sys/doc/v0.1.0/jni_sys)
+[Documentation](https://sfackler.github.io/rust-jni-sys/doc/v0.2.0/jni_sys)
 
 Rust definitions corresponding to jni.h.
 
