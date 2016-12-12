@@ -1210,3 +1210,7 @@ impl Default for JNIInvokeInterface_ {
         unsafe { mem::zeroed() }
     }
 }
+
+extern "C" {
+    pub fn JNI_CreateJavaVM(pvm: *mut *mut JavaVM, penv: *mut *mut c_void, args: *mut c_void) -> jint;
+}
