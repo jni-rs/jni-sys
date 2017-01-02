@@ -1,6 +1,6 @@
 # jni-sys
 
-[Documentation](https://docs.rs/jni-sys/0.2.1/jni_sys)
+[Documentation](https://docs.rs/jni-sys)
 
 Rust definitions corresponding to jni.h.
 

@@ -1,4 +1,4 @@
-#![doc(html_root_url="https://docs.rs/jni-sys/0.2.1")]
+#![doc(html_root_url="https://docs.rs/jni-sys/0.2.2")]
 #![allow(non_snake_case, non_camel_case_types)]
 
 use std::os::raw::c_void;
