@@ -19,7 +19,7 @@ pub type jfloat = f32;
 pub type jdouble = f64;
 pub type jsize = jint;
 
-pub struct _jobject(c_void);
+pub enum _jobject {}
 pub type jobject = *mut _jobject;
 pub type jclass = jobject;
 pub type jthrowable = jobject;
@@ -39,44 +39,44 @@ pub type jweak = jobject;
 #[repr(C)]
 #[derive(Copy)]
 pub struct jvalue {
-    pub _data: u64,
+    data: u64,
 }
 
 impl jvalue {
     pub unsafe fn z(&mut self) -> *mut jboolean {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn b(&mut self) -> *mut jbyte {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn c(&mut self) -> *mut jchar {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn s(&mut self) -> *mut jshort {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn i(&mut self) -> *mut jint {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn j(&mut self) -> *mut jlong {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn f(&mut self) -> *mut jfloat {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn d(&mut self) -> *mut jdouble {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 
     pub unsafe fn l(&mut self) -> *mut jobject {
-        &mut self._data as *mut _ as *mut _
+        &mut self.data as *mut _ as *mut _
     }
 }
 
@@ -92,9 +92,9 @@ impl Default for jvalue {
     }
 }
 
-pub struct _jfieldID(c_void);
+pub enum _jfieldID {}
 pub type jfieldID = *mut _jfieldID;
-pub struct _jmethodID(c_void);
+pub enum _jmethodID {}
 pub type jmethodID = *mut _jmethodID;
 
 #[derive(Clone, Copy)]
