@@ -32,6 +32,9 @@ fn main() {
     );
 
     cfg.skip_type(|s| s == "va_list");
+    cfg.skip_field(|s, field| {
+        s == "jvalue" && field == "_data"
+    });
     cfg.type_name(|s, is_struct| if is_struct && s.ends_with("_") {
         format!("struct {}", s)
     } else {
