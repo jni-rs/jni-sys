@@ -7,6 +7,12 @@ description = "Rust definitions corresponding to jni.h"
 repository = "https://github.com/sfackler/rust-jni-sys"
 documentation = "https://docs.rs/jni-sys/0.2.3/jni_sys"
 readme = "README.md"
+categories = ["external-ffi-bindings"]
+keywords = ["java", "jni"]
+
+[badges]
+travis-ci = { repository = "sfackler/rust-jni-sys" }
+appveyor = { repository = "sfackler/rust-jni-sys" }
 
 [dependencies]
 
