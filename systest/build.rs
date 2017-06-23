@@ -18,14 +18,18 @@ fn main() {
         panic!("unsupported target");
     };
 
-    println!("cargo:rustc-link-search=native={}", java_home.join(lib_dir).display());
+    println!(
+        "cargo:rustc-link-search=native={}",
+        java_home.join(lib_dir).display()
+    );
     println!("cargo:rustc-link-lib=dylib=jvm");
 
     let mut cfg = ctest::TestGenerator::new();
 
     let include_dir = java_home.join("include");
-    cfg.include(&include_dir)
-        .include(include_dir.join(platform_dir));
+    cfg.include(&include_dir).include(
+        include_dir.join(platform_dir),
+    );
 
     cfg.skip_type(|s| s == "va_list");
     cfg.type_name(|s, is_struct| if is_struct && s.ends_with("_") {
