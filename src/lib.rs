@@ -4,8 +4,6 @@
 use std::os::raw::c_void;
 use std::os::raw::c_char;
 
-use std::mem;
-
 // FIXME is this sufficiently correct?
 pub type va_list = *mut c_void;
 
@@ -38,57 +36,21 @@ pub type jweak = jobject;
 
 #[repr(C)]
 #[derive(Copy)]
-pub struct jvalue {
-    pub _data: u64,
-}
-
-impl jvalue {
-    pub unsafe fn z(&mut self) -> *mut jboolean {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn b(&mut self) -> *mut jbyte {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn c(&mut self) -> *mut jchar {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn s(&mut self) -> *mut jshort {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn i(&mut self) -> *mut jint {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn j(&mut self) -> *mut jlong {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn f(&mut self) -> *mut jfloat {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn d(&mut self) -> *mut jdouble {
-        &mut self._data as *mut _ as *mut _
-    }
-
-    pub unsafe fn l(&mut self) -> *mut jobject {
-        &mut self._data as *mut _ as *mut _
-    }
+pub union jvalue {
+    pub z: jboolean,
+    pub b: jbyte,
+    pub c: jchar,
+    pub s: jshort,
+    pub i: jint,
+    pub j: jlong,
+    pub f: jfloat,
+    pub d: jdouble,
+    pub l: jobject,
 }
 
 impl Clone for jvalue {
     fn clone(&self) -> Self {
         *self
-    }
-}
-
-impl Default for jvalue {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }
 
@@ -137,12 +99,6 @@ pub struct JNINativeMethod {
 impl Clone for JNINativeMethod {
     fn clone(&self) -> Self {
         *self
-    }
-}
-
-impl Default for JNINativeMethod {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }
 
@@ -1460,12 +1416,6 @@ impl Clone for JNINativeInterface_ {
     }
 }
 
-impl Default for JNINativeInterface_ {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
-    }
-}
-
 #[repr(C)]
 #[derive(Copy)]
 pub struct JNIEnv_ {
@@ -1475,12 +1425,6 @@ pub struct JNIEnv_ {
 impl Clone for JNIEnv_ {
     fn clone(&self) -> Self {
         *self
-    }
-}
-
-impl Default for JNIEnv_ {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }
 
@@ -1494,12 +1438,6 @@ pub struct JavaVMOption {
 impl Clone for JavaVMOption {
     fn clone(&self) -> Self {
         *self
-    }
-}
-
-impl Default for JavaVMOption {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }
 
@@ -1518,12 +1456,6 @@ impl Clone for JavaVMInitArgs {
     }
 }
 
-impl Default for JavaVMInitArgs {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
-    }
-}
-
 #[repr(C)]
 #[derive(Copy)]
 pub struct JavaVMAttachArgs {
@@ -1535,12 +1467,6 @@ pub struct JavaVMAttachArgs {
 impl Clone for JavaVMAttachArgs {
     fn clone(&self) -> Self {
         *self
-    }
-}
-
-impl Default for JavaVMAttachArgs {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }
 
@@ -1575,12 +1501,6 @@ pub struct JNIInvokeInterface_ {
 impl Clone for JNIInvokeInterface_ {
     fn clone(&self) -> Self {
         *self
-    }
-}
-
-impl Default for JNIInvokeInterface_ {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }
 

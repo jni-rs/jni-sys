@@ -13,7 +13,7 @@ install:
 build: false
 test_script:
 - cargo build --target %TARGET%
-- cargo run --target %TARGET% -p systest
+#- cargo run --target %TARGET% -p systest
 cache:
 - target
 - C:\Users\appveyor\.cargo\registry
