@@ -87,6 +87,8 @@ pub const JNI_VERSION_1_2: jint = 0x00010002;
 pub const JNI_VERSION_1_4: jint = 0x00010004;
 pub const JNI_VERSION_1_6: jint = 0x00010006;
 pub const JNI_VERSION_1_8: jint = 0x00010008;
+pub const JNI_VERSION_9: jint = 0x00090000;
+pub const JNI_VERSION_10: jint = 0x000a0000;
 
 #[repr(C)]
 #[derive(Copy)]
