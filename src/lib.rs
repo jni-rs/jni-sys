@@ -1,9 +1,10 @@
 #![doc(html_root_url = "https://docs.rs/jni-sys/0.3.0")]
 #![allow(non_snake_case, non_camel_case_types)]
 #![warn(rust_2018_idioms, missing_debug_implementations)]
+#![no_std]
 
-use std::os::raw::c_char;
-use std::os::raw::c_void;
+use core::ffi::c_char;
+use core::ffi::c_void;
 
 use jni_sys_macros::jni_to_union;
 
@@ -57,8 +58,8 @@ impl Clone for jvalue {
         *self
     }
 }
-impl std::fmt::Debug for jvalue {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Debug for jvalue {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         let b = unsafe { self.b };
         // For all except `jboolean` then any bitwise pattern is a valid value
         // so even though we don't know which specific type the given `jvalue`
