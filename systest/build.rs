@@ -1,5 +1,3 @@
-extern crate ctest;
-
 use std::env;
 use std::path::PathBuf;
 
@@ -24,7 +22,7 @@ fn main() {
     );
     println!("cargo:rustc-link-lib=dylib=jvm");
 
-    let mut cfg = ctest::TestGenerator::new();
+    let mut cfg = ctest2::TestGenerator::new();
 
     let include_dir = java_home.join("include");
     cfg.include(&include_dir)
@@ -32,8 +30,8 @@ fn main() {
 
     cfg.skip_type(|s| s == "va_list");
     cfg.skip_field(|s, field| s == "jvalue" && field == "_data");
-    cfg.type_name(|s, is_struct| {
-        if is_struct && s.ends_with("_") {
+    cfg.type_name(|s, is_struct, _is_union| {
+        if is_struct && s.ends_with('_') {
             format!("struct {}", s)
         } else {
             s.to_string()

@@ -1,10 +1,12 @@
 [package]
 name = "systest"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Steven Fackler <sfackler@gmail.com>"]
+edition = "2021"
 
 [dependencies]
 jni-sys = { path = ".." }
+libc = "0.2"
 
 [build-dependencies]
-ctest = "0.1.4"
+ctest2 = "0.4"
