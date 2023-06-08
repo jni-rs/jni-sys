@@ -1,6 +1,7 @@
-#![allow(bad_style)]
+#![allow(bad_style, improper_ctypes)]
 
 extern crate jni_sys;
+extern crate libc;
 
 use jni_sys::*;
 
