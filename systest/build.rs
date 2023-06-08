@@ -27,23 +27,44 @@ fn main() {
     let mut cfg = ctest::TestGenerator::new();
 
     let include_dir = java_home.join("include");
-    cfg.include(&include_dir).include(
-        include_dir.join(platform_dir),
-    );
+    cfg.include(&include_dir)
+        .include(include_dir.join(platform_dir));
 
     cfg.skip_type(|s| s == "va_list");
-    cfg.skip_field(|s, field| {
-        s == "jvalue" && field == "_data"
+    cfg.skip_field(|s, field| s == "jvalue" && field == "_data");
+    cfg.type_name(|s, is_struct| {
+        if is_struct && s.ends_with("_") {
+            format!("struct {}", s)
+        } else {
+            s.to_string()
+        }
     });
-    cfg.type_name(|s, is_struct| if is_struct && s.ends_with("_") {
-        format!("struct {}", s)
-    } else {
-        s.to_string()
+    cfg.skip_signededness(|s| {
+        matches!(
+            s,
+            "jfloat"
+                | "jdouble"
+                | "jobject"
+                | "jclass"
+                | "jstring"
+                | "jarray"
+                | "jbooleanArray"
+                | "jbyteArray"
+                | "jcharArray"
+                | "jshortArray"
+                | "jintArray"
+                | "jlongArray"
+                | "jfloatArray"
+                | "jdoubleArray"
+                | "jobjectArray"
+                | "jweak"
+                | "jthrowable"
+                | "jfieldID"
+                | "jmethodID"
+                | "JNIEnv"
+                | "JavaVM"
+        )
     });
-    cfg.skip_signededness(|s| matches!(s, "jfloat" | "jdouble" | "jobject" | "jclass" | "jstring" | "jarray" | "jbooleanArray" |
-        "jbyteArray" | "jcharArray" | "jshortArray" | "jintArray" | "jlongArray" |
-        "jfloatArray" | "jdoubleArray" | "jobjectArray" | "jweak" | "jthrowable" | "jfieldID" |
-        "jmethodID" | "JNIEnv" | "JavaVM"));
     cfg.skip_fn_ptrcheck(move |_name| {
         // dllimport weirdness?
         windows
