@@ -40,13 +40,10 @@ fn main() {
     } else {
         s.to_string()
     });
-    cfg.skip_signededness(|s| match s {
-        "jfloat" | "jdouble" | "jobject" | "jclass" | "jstring" | "jarray" | "jbooleanArray" |
+    cfg.skip_signededness(|s| matches!(s, "jfloat" | "jdouble" | "jobject" | "jclass" | "jstring" | "jarray" | "jbooleanArray" |
         "jbyteArray" | "jcharArray" | "jshortArray" | "jintArray" | "jlongArray" |
         "jfloatArray" | "jdoubleArray" | "jobjectArray" | "jweak" | "jthrowable" | "jfieldID" |
-        "jmethodID" | "JNIEnv" | "JavaVM" => true,
-        _ => false,
-    });
+        "jmethodID" | "JNIEnv" | "JavaVM"));
     cfg.skip_fn_ptrcheck(move |_name| {
         // dllimport weirdness?
         windows
