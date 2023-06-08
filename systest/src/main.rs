@@ -1,4 +1,5 @@
 #![allow(bad_style, improper_ctypes)]
+#![allow(clippy::all)]
 
 extern crate jni_sys;
 extern crate libc;
