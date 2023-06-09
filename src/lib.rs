@@ -10,7 +10,7 @@ pub type va_list = *mut c_void;
 pub type jint = i32;
 pub type jlong = i64;
 pub type jbyte = i8;
-pub type jboolean = u8;
+pub type jboolean = bool;
 pub type jchar = u16;
 pub type jshort = i16;
 pub type jfloat = f32;
@@ -68,8 +68,8 @@ pub enum jobjectRefType {
     JNIWeakGlobalRefType = 3,
 }
 
-pub const JNI_FALSE: jboolean = 0;
-pub const JNI_TRUE: jboolean = 1;
+pub const JNI_FALSE: jboolean = false;
+pub const JNI_TRUE: jboolean = true;
 
 pub const JNI_OK: jint = 0;
 pub const JNI_ERR: jint = -1;
