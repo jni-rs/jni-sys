@@ -22,6 +22,12 @@ fn main() {
     );
     println!("cargo:rustc-link-lib=dylib=jvm");
 
+    // Increase the stack size on Windows otherwise the tests just overflow
+    // the stack.
+    if env::var("CARGO_CFG_TARGET_ENV").unwrap() == "msvc" {
+        println!("cargo:rustc-link-arg=/stack:{}", 8 * 1024 * 1024);
+    }
+
     let mut cfg = ctest2::TestGenerator::new();
 
     let include_dir = java_home.join("include");
