@@ -108,6 +108,7 @@ pub type JNIEnv = *const JNINativeInterface_;
 pub type JavaVM = *const JNIInvokeInterface_;
 
 #[repr(C)]
+#[non_exhaustive]
 #[derive(Copy)]
 pub struct JNINativeInterface_ {
     pub reserved0: *mut c_void,
