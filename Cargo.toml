@@ -10,10 +10,6 @@ readme = "README.md"
 categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
 
-[badges]
-travis-ci = { repository = "sfackler/rust-jni-sys" }
-appveyor = { repository = "sfackler/rust-jni-sys" }
-
 [dependencies]
 
 [workspace]
