@@ -1,6 +1,8 @@
 #![doc(html_root_url = "https://docs.rs/jni-sys/0.3.0")]
 #![allow(non_snake_case, non_camel_case_types)]
 
+#![warn(rust_2018_idioms)]
+
 use std::os::raw::c_char;
 use std::os::raw::c_void;
 
