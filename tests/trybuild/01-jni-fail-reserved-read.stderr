@@ -1,0 +1,7 @@
+error[E0609]: no field `reserved0` on type `JNINativeInterface__1_1`
+ --> tests/trybuild/01-jni-fail-reserved-read.rs:7:34
+  |
+7 |         let _reserved = jni.v1_1.reserved0;
+  |                                  ^^^^^^^^^ unknown field
+  |
+  = note: available fields are: `GetVersion`, `DefineClass`, `FindClass`, `GetSuperclass`, `IsAssignableFrom` ... and 203 others

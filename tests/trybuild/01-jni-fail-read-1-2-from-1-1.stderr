@@ -1,0 +1,7 @@
+error[E0609]: no field `FromReflectedMethod` on type `JNINativeInterface__1_1`
+ --> tests/trybuild/01-jni-fail-read-1-2-from-1-1.rs:7:38
+  |
+7 |         let _1_2_function = jni.v1_1.FromReflectedMethod;
+  |                                      ^^^^^^^^^^^^^^^^^^^ unknown field
+  |
+  = note: available fields are: `GetVersion`, `DefineClass`, `FindClass`, `GetSuperclass`, `IsAssignableFrom` ... and 203 others

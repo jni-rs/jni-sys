@@ -13,6 +13,13 @@ edition = "2021"
 rust-version = "1.65.0"
 
 [dependencies]
+jni-sys-macros = { version = "0.1", path = "jni-sys-macros" }
+
+[dev-dependencies]
+trybuild = "1"
 
 [workspace]
-members = ["systest"]
+members = [
+    "systest",
+    "jni-sys-macros"
+]

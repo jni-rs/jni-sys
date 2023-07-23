@@ -35,7 +35,11 @@ fn main() {
         .include(include_dir.join(platform_dir));
 
     cfg.skip_type(|s| s == "va_list");
-    cfg.skip_field(|s, field| s == "jvalue" && field == "_data");
+    cfg.skip_field(|s, field| {
+        (s == "jvalue" && field == "_data")
+            || s == "JNINativeInterface_"
+            || s == "JNIInvokeInterface_" // ctest2 isn't able to test these unions
+    });
     cfg.type_name(|s, is_struct, _is_union| {
         if is_struct && s.ends_with('_') {
             format!("struct {}", s)
@@ -74,10 +78,8 @@ fn main() {
         windows
     });
     cfg.skip_roundtrip(|s| {
-        matches!(
-            s,
-            "jboolean" // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
-        )
+        s == "jboolean" || // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
+        s == "JNINativeInterface_" || s == "JNIInvokeInterface_" // ctest2 isn't able to test these unions
     });
     cfg.header("jni.h").generate("../src/lib.rs", "all.rs");
 }
