@@ -13,6 +13,13 @@ edition = "2021"
 rust-version = "1.65.0"
 
 [dependencies]
+jni-to-union-macro = { path = "jni-to-union-macro" }
+
+[dev-dependencies]
+trybuild = "1"
 
 [workspace]
-members = ["systest"]
+members = [
+    "systest",
+    "jni-to-union-macro"
+]

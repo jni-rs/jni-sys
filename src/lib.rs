@@ -6,6 +6,8 @@
 use std::os::raw::c_char;
 use std::os::raw::c_void;
 
+use jni_to_union_macro::jni_to_union;
+
 // FIXME is this sufficiently correct?
 pub type va_list = *mut c_void;
 
@@ -61,7 +63,7 @@ pub type jfieldID = *mut _jfieldID;
 pub enum _jmethodID {}
 pub type jmethodID = *mut _jmethodID;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 #[repr(C)]
 pub enum jobjectRefType {
     JNIInvalidRefType = 0,
@@ -111,12 +113,18 @@ pub type JavaVM = *const JNIInvokeInterface_;
 
 #[repr(C)]
 #[non_exhaustive]
-#[derive(Copy)]
+#[jni_to_union]
+#[derive(Copy, Clone)]
 pub struct JNINativeInterface_ {
+    #[jni_added("reserved")]
     pub reserved0: *mut c_void,
+    #[jni_added("reserved")]
     pub reserved1: *mut c_void,
+    #[jni_added("reserved")]
     pub reserved2: *mut c_void,
+    #[jni_added("reserved")]
     pub reserved3: *mut c_void,
+    #[jni_added("1.1")]
     pub GetVersion: unsafe extern "system" fn(env: *mut JNIEnv) -> jint,
     pub DefineClass: unsafe extern "system" fn(
         env: *mut JNIEnv,
@@ -126,9 +134,12 @@ pub struct JNINativeInterface_ {
         len: jsize,
     ) -> jclass,
     pub FindClass: unsafe extern "system" fn(env: *mut JNIEnv, name: *const c_char) -> jclass,
+    #[jni_added("1.2")]
     pub FromReflectedMethod:
         unsafe extern "system" fn(env: *mut JNIEnv, method: jobject) -> jmethodID,
+    #[jni_added("1.2")]
     pub FromReflectedField: unsafe extern "system" fn(env: *mut JNIEnv, field: jobject) -> jfieldID,
+    #[jni_added("1.2")]
     pub ToReflectedMethod: unsafe extern "system" fn(
         env: *mut JNIEnv,
         cls: jclass,
@@ -138,6 +149,7 @@ pub struct JNINativeInterface_ {
     pub GetSuperclass: unsafe extern "system" fn(env: *mut JNIEnv, sub: jclass) -> jclass,
     pub IsAssignableFrom:
         unsafe extern "system" fn(env: *mut JNIEnv, sub: jclass, sup: jclass) -> jboolean,
+    #[jni_added("1.2")]
     pub ToReflectedField: unsafe extern "system" fn(
         env: *mut JNIEnv,
         cls: jclass,
@@ -151,14 +163,18 @@ pub struct JNINativeInterface_ {
     pub ExceptionDescribe: unsafe extern "system" fn(env: *mut JNIEnv),
     pub ExceptionClear: unsafe extern "system" fn(env: *mut JNIEnv),
     pub FatalError: unsafe extern "system" fn(env: *mut JNIEnv, msg: *const c_char) -> !,
+    #[jni_added("1.2")]
     pub PushLocalFrame: unsafe extern "system" fn(env: *mut JNIEnv, capacity: jint) -> jint,
+    #[jni_added("1.2")]
     pub PopLocalFrame: unsafe extern "system" fn(env: *mut JNIEnv, result: jobject) -> jobject,
     pub NewGlobalRef: unsafe extern "system" fn(env: *mut JNIEnv, lobj: jobject) -> jobject,
     pub DeleteGlobalRef: unsafe extern "system" fn(env: *mut JNIEnv, gref: jobject),
     pub DeleteLocalRef: unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject),
     pub IsSameObject:
         unsafe extern "system" fn(env: *mut JNIEnv, obj1: jobject, obj2: jobject) -> jboolean,
+    #[jni_added("1.2")]
     pub NewLocalRef: unsafe extern "system" fn(env: *mut JNIEnv, ref_: jobject) -> jobject,
+    #[jni_added("1.2")]
     pub EnsureLocalCapacity: unsafe extern "system" fn(env: *mut JNIEnv, capacity: jint) -> jint,
     pub AllocObject: unsafe extern "system" fn(env: *mut JNIEnv, clazz: jclass) -> jobject,
     pub NewObject:
@@ -1194,6 +1210,7 @@ pub struct JNINativeInterface_ {
     pub MonitorEnter: unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jint,
     pub MonitorExit: unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jint,
     pub GetJavaVM: unsafe extern "system" fn(env: *mut JNIEnv, vm: *mut *mut JavaVM) -> jint,
+    #[jni_added("1.2")]
     pub GetStringRegion: unsafe extern "system" fn(
         env: *mut JNIEnv,
         str: jstring,
@@ -1202,6 +1219,7 @@ pub struct JNINativeInterface_ {
         buf: *mut jchar,
     ),
 
+    #[jni_added("1.2")]
     pub GetStringUTFRegion: unsafe extern "system" fn(
         env: *mut JNIEnv,
         str: jstring,
@@ -1210,43 +1228,65 @@ pub struct JNINativeInterface_ {
         buf: *mut c_char,
     ),
 
+    #[jni_added("1.2")]
     pub GetPrimitiveArrayCritical: unsafe extern "system" fn(
         env: *mut JNIEnv,
         array: jarray,
         isCopy: *mut jboolean,
     ) -> *mut c_void,
 
+    #[jni_added("1.2")]
     pub ReleasePrimitiveArrayCritical:
         unsafe extern "system" fn(env: *mut JNIEnv, array: jarray, carray: *mut c_void, mode: jint),
 
+    #[jni_added("1.2")]
     pub GetStringCritical: unsafe extern "system" fn(
         env: *mut JNIEnv,
         string: jstring,
         isCopy: *mut jboolean,
     ) -> *const jchar,
 
+    #[jni_added("1.2")]
     pub ReleaseStringCritical:
         unsafe extern "system" fn(env: *mut JNIEnv, string: jstring, cstring: *const jchar),
+    #[jni_added("1.2")]
     pub NewWeakGlobalRef: unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jweak,
+    #[jni_added("1.2")]
     pub DeleteWeakGlobalRef: unsafe extern "system" fn(env: *mut JNIEnv, ref_: jweak),
+    #[jni_added("1.2")]
     pub ExceptionCheck: unsafe extern "system" fn(env: *mut JNIEnv) -> jboolean,
+    #[jni_added("1.4")]
     pub NewDirectByteBuffer: unsafe extern "system" fn(
         env: *mut JNIEnv,
         address: *mut c_void,
         capacity: jlong,
     ) -> jobject,
 
+    #[jni_added("1.4")]
     pub GetDirectBufferAddress:
         unsafe extern "system" fn(env: *mut JNIEnv, buf: jobject) -> *mut c_void,
+    #[jni_added("1.4")]
     pub GetDirectBufferCapacity: unsafe extern "system" fn(env: *mut JNIEnv, buf: jobject) -> jlong,
+    #[jni_added("1.6")]
     pub GetObjectRefType:
         unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jobjectRefType,
+    #[jni_added("9")]
     pub GetModule: unsafe extern "system" fn(env: *mut JNIEnv, clazz: jclass) -> jobject,
 }
 
-impl Clone for JNINativeInterface_ {
-    fn clone(&self) -> Self {
-        *self
+/// For now we simply provide an empty Debug implementation so we don't make
+/// it difficult for other composite types to automatically derive the `Debug`
+/// trait.
+///
+/// The system function pointers mean it's only possible to automatically derive
+/// Debug with Rust 1.70+ (since the unstable `FnPtr` trait was added) which is
+/// currently more recent than our MSRV.
+///
+/// It's also currently assumed that a full list of function names and pointers
+/// would be excessively noisy and impractical in most cases.
+impl std::fmt::Debug for JNINativeInterface_ {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("JNINativeInterface_").finish()
     }
 }
 
@@ -1305,10 +1345,15 @@ impl Clone for JavaVMAttachArgs {
 }
 
 #[repr(C)]
-#[derive(Copy)]
+#[jni_to_union]
+#[non_exhaustive]
+#[derive(Copy, Clone)]
 pub struct JNIInvokeInterface_ {
+    #[jni_added("reserved")]
     pub reserved0: *mut c_void,
+    #[jni_added("reserved")]
     pub reserved1: *mut c_void,
+    #[jni_added("reserved")]
     pub reserved2: *mut c_void,
     pub DestroyJavaVM: unsafe extern "system" fn(vm: *mut JavaVM) -> jint,
     pub AttachCurrentThread: unsafe extern "system" fn(
@@ -1318,20 +1363,17 @@ pub struct JNIInvokeInterface_ {
     ) -> jint,
 
     pub DetachCurrentThread: unsafe extern "system" fn(vm: *mut JavaVM) -> jint,
+
+    #[jni_added("1.2")]
     pub GetEnv:
         unsafe extern "system" fn(vm: *mut JavaVM, penv: *mut *mut c_void, version: jint) -> jint,
 
+    #[jni_added("1.4")]
     pub AttachCurrentThreadAsDaemon: unsafe extern "system" fn(
         vm: *mut JavaVM,
         penv: *mut *mut c_void,
         args: *mut c_void,
     ) -> jint,
-}
-
-impl Clone for JNIInvokeInterface_ {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 extern "system" {
