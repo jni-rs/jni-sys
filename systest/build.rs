@@ -34,6 +34,11 @@ fn main() {
     cfg.include(&include_dir)
         .include(include_dir.join(platform_dir));
 
+    cfg.skip_const(|s| {
+        (!cfg!(feature = "jni19") && s == "JNI_VERSION_19")
+            || (!cfg!(feature = "jni20") && s == "JNI_VERSION_20")
+            || (!cfg!(feature = "jni21") && s == "JNI_VERSION_21")
+    });
     cfg.skip_type(|s| s == "va_list");
     cfg.skip_field(|s, field| {
         (s == "jvalue" && field == "_data")
