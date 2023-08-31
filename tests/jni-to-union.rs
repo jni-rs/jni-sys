@@ -40,7 +40,7 @@ fn jni_to_union() {
     );
 }
 
-const NUM_JNI_ENV_MEMBERS: usize = 234;
+const NUM_JNI_ENV_MEMBERS: usize = 235;
 #[test]
 fn jni_env_union() {
     assert_eq!(

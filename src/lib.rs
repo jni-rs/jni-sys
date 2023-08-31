@@ -1306,6 +1306,9 @@ pub struct JNINativeInterface_ {
         unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jobjectRefType,
     #[jni_added("9")]
     pub GetModule: unsafe extern "system" fn(env: *mut JNIEnv, clazz: jclass) -> jobject,
+
+    #[jni_added("19")]
+    pub IsVirtualThread: unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jboolean,
 }
 
 #[repr(C)]

@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `JNI_VERSION_9`, `JNI_VERSION_10`, `JNI_VERSION_19`, `JNI_VERSION_20` and `JNI_VERSION_21` constants
 - GetModule was added to `JNINativeInterface` ([#22](https://github.com/jni-rs/jni-sys/pull/22))
+- IsVirtualThread was added to `JNINativeInterface` ([#32](https://github.com/jni-rs/jni-sys/pull/32))
 
 ### Fixed
 
