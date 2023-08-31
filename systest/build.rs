@@ -73,5 +73,11 @@ fn main() {
         // dllimport weirdness?
         windows
     });
+    cfg.skip_roundtrip(|s| {
+        matches!(
+            s,
+            "jboolean" // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
+        )
+    });
     cfg.header("jni.h").generate("../src/lib.rs", "all.rs");
 }
