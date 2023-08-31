@@ -1,7 +1,6 @@
 #![doc(html_root_url = "https://docs.rs/jni-sys/0.3.0")]
 #![allow(non_snake_case, non_camel_case_types)]
-
-#![warn(rust_2018_idioms)]
+#![warn(rust_2018_idioms, missing_debug_implementations)]
 
 use std::os::raw::c_char;
 use std::os::raw::c_void;
@@ -21,6 +20,7 @@ pub type jfloat = f32;
 pub type jdouble = f64;
 pub type jsize = jint;
 
+#[derive(Debug)]
 pub enum _jobject {}
 pub type jobject = *mut _jobject;
 pub type jclass = jobject;
@@ -57,9 +57,39 @@ impl Clone for jvalue {
         *self
     }
 }
+impl std::fmt::Debug for jvalue {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let b = unsafe { self.b };
+        // For all except for jboolean then any bitwise pattern is a valid value
+        // so even though we don't know which specific type the given `jvalue`
+        // represents we can effectively cast it to all possible types.
+        f.debug_struct("jvalue")
+            .field(
+                "z",
+                &if b == 0 {
+                    "false"
+                } else if b == 1 {
+                    "true"
+                } else {
+                    "invalid"
+                },
+            )
+            .field("b", unsafe { &self.b })
+            .field("c", unsafe { &self.c })
+            .field("s", unsafe { &self.s })
+            .field("i", unsafe { &self.i })
+            .field("j", unsafe { &self.j })
+            .field("f", unsafe { &self.f })
+            .field("d", unsafe { &self.d })
+            .field("l", unsafe { &self.l })
+            .finish()
+    }
+}
 
+#[derive(Debug)]
 pub enum _jfieldID {}
 pub type jfieldID = *mut _jfieldID;
+#[derive(Debug)]
 pub enum _jmethodID {}
 pub type jmethodID = *mut _jmethodID;
 
@@ -95,7 +125,7 @@ pub const JNI_VERSION_9: jint = 0x00090000;
 pub const JNI_VERSION_10: jint = 0x000a0000;
 
 #[repr(C)]
-#[derive(Copy)]
+#[derive(Copy, Debug)]
 pub struct JNINativeMethod {
     pub name: *mut c_char,
     pub signature: *mut c_char,
@@ -1291,7 +1321,7 @@ impl std::fmt::Debug for JNINativeInterface_ {
 }
 
 #[repr(C)]
-#[derive(Copy)]
+#[derive(Copy, Debug)]
 pub struct JNIEnv_ {
     pub functions: *const JNINativeInterface_,
 }
@@ -1303,7 +1333,7 @@ impl Clone for JNIEnv_ {
 }
 
 #[repr(C)]
-#[derive(Copy)]
+#[derive(Copy, Debug)]
 pub struct JavaVMOption {
     pub optionString: *mut c_char,
     pub extraInfo: *mut c_void,
@@ -1316,7 +1346,7 @@ impl Clone for JavaVMOption {
 }
 
 #[repr(C)]
-#[derive(Copy)]
+#[derive(Copy, Debug)]
 pub struct JavaVMInitArgs {
     pub version: jint,
     pub nOptions: jint,
@@ -1331,7 +1361,7 @@ impl Clone for JavaVMInitArgs {
 }
 
 #[repr(C)]
-#[derive(Copy)]
+#[derive(Copy, Debug)]
 pub struct JavaVMAttachArgs {
     pub version: jint,
     pub name: *mut c_char,
