@@ -10,3 +10,8 @@ libc = "0.2"
 
 [build-dependencies]
 ctest2 = "0.4"
+
+[features]
+jni19 = []
+jni20 = []
+jni21 = []
