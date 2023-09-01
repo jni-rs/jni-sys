@@ -1,6 +1,7 @@
 [package]
 name = "jni-sys-macros"
 version = "0.1.0"
+readme = "README.md"
 edition = "2021"
 
 [lib]
