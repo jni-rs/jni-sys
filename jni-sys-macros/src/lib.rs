@@ -75,7 +75,7 @@ fn jni_to_union_impl(input: DeriveInput) -> syn::Result<TokenStream> {
 
                 let mut jni_added_attr = None;
                 field.attrs.retain(|attr| {
-                    if attr.path.is_ident("jni_added") {
+                    if attr.path().is_ident("jni_added") {
                         jni_added_attr = Some(attr.clone());
                         false
                     } else {
