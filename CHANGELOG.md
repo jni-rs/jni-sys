@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.4.1] - 2026-01-09
+
 ### Added
 
-- Added `JNI_VERSION_24` constant
+- Added `JNI_VERSION_24` constant ([#47](https://github.com/jni-rs/jni-sys/pull/47))
+- Added `GetStringUTFLengthAsLong` to `JNINativeInterface` ([#42](https://github.com/jni-rs/jni-sys/pull/42))
 
 ### Changed
 
-- Bumped syn crate dependency to 2
+- Bumped syn crate dependency to 2 (for `jni-sys-macros`) ([#36](https://github.com/jni-rs/jni-sys/pull/36))
 
 ## [0.4.0] - 2023-09-25
 
@@ -66,5 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Changed jvalue into a union
 
-[unreleased]: https://github.com/jni-rs/jni-sys/compare/v0.3.0...HEAD
+[unreleased]: https://github.com/jni-rs/jni-sys/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/jni-rs/jni-sys/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/jni-rs/jni-sys/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jni-rs/jni-sys/compare/v0.2.5...v0.3.0
