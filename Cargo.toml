@@ -10,7 +10,7 @@ readme = "README.md"
 categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
 edition = "2021"
-rust-version = "1.65.0"
+rust-version = "1.76.0"
 exclude = [
     "/.github",
     "/tests"

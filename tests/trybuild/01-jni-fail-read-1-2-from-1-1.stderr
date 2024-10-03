@@ -4,4 +4,4 @@ error[E0609]: no field `FromReflectedMethod` on type `JNINativeInterface__1_1`
 7 |         let _1_2_function = jni.v1_1.FromReflectedMethod;
   |                                      ^^^^^^^^^^^^^^^^^^^ unknown field
   |
-  = note: available fields are: `GetVersion`, `DefineClass`, `FindClass`, `GetSuperclass`, `IsAssignableFrom` ... and 203 others
+  = note: available fields are: `GetVersion`, `DefineClass`, `FindClass`, `GetSuperclass`, `IsAssignableFrom` ... and 95 others
