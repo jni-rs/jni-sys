@@ -7,11 +7,11 @@ fn main() {
     let windows = target.contains("windows");
 
     let (platform_dir, lib_dir) = if target.contains("linux") {
-        ("linux", "jre/lib/amd64/server")
+        ("linux", "lib/server")
     } else if target.contains("windows") {
         ("win32", "lib")
     } else if target.contains("darwin") {
-        ("darwin", "jre/lib/server")
+        ("darwin", "lib/server")
     } else {
         panic!("unsupported target");
     };
