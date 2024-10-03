@@ -3,15 +3,16 @@ use std::path::PathBuf;
 
 fn main() {
     let java_home = PathBuf::from(env::var_os("JAVA_HOME").unwrap());
+    println!("cargo:rerun-if-env-changed=JAVA_HOME");
     let target = env::var("TARGET").unwrap();
     let windows = target.contains("windows");
 
     let (platform_dir, lib_dir) = if target.contains("linux") {
-        ("linux", "jre/lib/amd64/server")
+        ("linux", "lib/server")
     } else if target.contains("windows") {
         ("win32", "lib")
     } else if target.contains("darwin") {
-        ("darwin", "jre/lib/server")
+        ("darwin", "lib/server")
     } else {
         panic!("unsupported target");
     };
@@ -38,6 +39,7 @@ fn main() {
         (!cfg!(feature = "jni19") && s == "JNI_VERSION_19")
             || (!cfg!(feature = "jni20") && s == "JNI_VERSION_20")
             || (!cfg!(feature = "jni21") && s == "JNI_VERSION_21")
+            || (!cfg!(feature = "jni24") && s == "JNI_VERSION_24")
     });
     cfg.skip_type(|s| s == "va_list");
     cfg.skip_field(|s, field| {
