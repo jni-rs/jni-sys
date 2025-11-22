@@ -1309,6 +1309,10 @@ pub struct JNINativeInterface_ {
 
     #[jni_added("19")]
     pub IsVirtualThread: unsafe extern "system" fn(env: *mut JNIEnv, obj: jobject) -> jboolean,
+
+    #[jni_added("24")]
+    pub GetStringUTFLengthAsLong:
+        unsafe extern "system" fn(env: *mut JNIEnv, string: jstring) -> jlong,
 }
 
 #[repr(C)]
