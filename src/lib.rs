@@ -127,6 +127,7 @@ pub const JNI_VERSION_10: jint = 0x000a0000;
 pub const JNI_VERSION_19: jint = 0x00130000;
 pub const JNI_VERSION_20: jint = 0x00140000;
 pub const JNI_VERSION_21: jint = 0x00150000;
+pub const JNI_VERSION_24: jint = 0x00180000;
 
 #[repr(C)]
 #[derive(Copy, Debug)]
