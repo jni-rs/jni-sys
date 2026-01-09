@@ -1,11 +1,11 @@
 [package]
 name = "jni-sys-macros"
-version = "0.1.0"
+version = "0.4.1"
 authors = ["Robert Bragg <robert@sixbynine.org>"]
 license = "MIT OR Apache-2.0"
 description = "Macros for jni-sys crate"
 repository = "https://github.com/jni-rs/jni-sys"
-documentation = "https://docs.rs/jni-sys-macros/0.1.0"
+documentation = "https://docs.rs/jni-sys-macros"
 readme = "README.md"
 categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
