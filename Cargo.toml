@@ -17,7 +17,7 @@ exclude = [
 ]
 
 [dependencies]
-jni-sys-macros = { version = "0.1", path = "jni-sys-macros" }
+jni-sys-macros = { version = "0.4.1", path = "jni-sys-macros" }
 
 [dev-dependencies]
 trybuild = "1"
