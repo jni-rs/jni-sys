@@ -1,11 +1,11 @@
 [package]
 name = "systest"
-version = "0.2.0"
-authors = ["Steven Fackler <sfackler@gmail.com>"]
-edition = "2021"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
 
 [dependencies]
-jni-sys = { path = ".." }
+jni-sys.workspace = true
 libc = "0.2"
 
 [build-dependencies]
