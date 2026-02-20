@@ -1,93 +1,143 @@
 use std::env;
 use std::path::PathBuf;
 
-fn main() {
-    let java_home = PathBuf::from(env::var_os("JAVA_HOME").unwrap());
-    println!("cargo:rerun-if-env-changed=JAVA_HOME");
-    let target = env::var("TARGET").unwrap();
-    let windows = target.contains("windows");
+use ctest2::TestGenerator;
 
-    let (platform_dir, lib_dir) = if target.contains("linux") {
-        ("linux", "lib/server")
-    } else if target.contains("windows") {
-        ("win32", "lib")
-    } else if target.contains("darwin") {
-        ("darwin", "lib/server")
-    } else {
-        panic!("unsupported target");
-    };
+trait GenTest {
+    fn export(&mut self, krate: &str);
+}
 
-    println!(
-        "cargo:rustc-link-search=native={}",
-        java_home.join(lib_dir).display()
-    );
-    println!("cargo:rustc-link-lib=dylib=jvm");
+impl GenTest for TestGenerator {
+    fn export(&mut self, krate: &str) {
+        self.header(&format!("{krate}.h"))
+            .generate(format!("../{krate}-sys/src/lib.rs"), &format!("{krate}.rs"));
+    }
+}
 
-    // Increase the stack size on Windows otherwise the tests just overflow
-    // the stack.
-    if env::var("CARGO_CFG_TARGET_ENV").unwrap() == "msvc" {
-        println!("cargo:rustc-link-arg=/stack:{}", 8 * 1024 * 1024);
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+enum Target {
+    Linux,
+    Windows,
+    Darwin,
+}
+
+impl Target {
+    fn new() -> Self {
+        let target = env::var("TARGET").expect("'TARGET' variable set");
+        if target.contains("linux") {
+            Self::Linux
+        } else if target.contains("windows") {
+            Self::Windows
+        } else if target.contains("darwin") {
+            Self::Darwin
+        } else {
+            panic!("unsupported target");
+        }
     }
 
-    let mut cfg = ctest2::TestGenerator::new();
-
-    let include_dir = java_home.join("include");
-    cfg.include(&include_dir)
-        .include(include_dir.join(platform_dir));
-
-    cfg.skip_const(|s| {
-        (!cfg!(feature = "jni19") && s == "JNI_VERSION_19")
-            || (!cfg!(feature = "jni20") && s == "JNI_VERSION_20")
-            || (!cfg!(feature = "jni21") && s == "JNI_VERSION_21")
-            || (!cfg!(feature = "jni24") && s == "JNI_VERSION_24")
-    });
-    cfg.skip_type(|s| s == "va_list");
-    cfg.skip_field(|s, field| {
-        (s == "jvalue" && field == "_data")
-            || s == "JNINativeInterface_"
-            || s == "JNIInvokeInterface_" // ctest2 isn't able to test these unions
-    });
-    cfg.type_name(|s, is_struct, _is_union| {
-        if is_struct && s.ends_with('_') {
-            format!("struct {}", s)
-        } else {
-            s.to_string()
+    fn platform_dir(&self) -> &'static str {
+        match self {
+            Target::Linux => "linux",
+            Target::Windows => "windows",
+            Target::Darwin => "darwin",
         }
-    });
-    cfg.skip_signededness(|s| {
-        matches!(
-            s,
-            "jfloat"
-                | "jdouble"
-                | "jobject"
-                | "jclass"
-                | "jstring"
-                | "jarray"
-                | "jbooleanArray"
-                | "jbyteArray"
-                | "jcharArray"
-                | "jshortArray"
-                | "jintArray"
-                | "jlongArray"
-                | "jfloatArray"
-                | "jdoubleArray"
-                | "jobjectArray"
-                | "jweak"
-                | "jthrowable"
-                | "jfieldID"
-                | "jmethodID"
-                | "JNIEnv"
-                | "JavaVM"
-        )
-    });
-    cfg.skip_fn_ptrcheck(move |_name| {
-        // dllimport weirdness?
-        windows
-    });
-    cfg.skip_roundtrip(|s| {
-        s == "jboolean" || // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
-        s == "JNINativeInterface_" || s == "JNIInvokeInterface_" // ctest2 isn't able to test these unions
-    });
-    cfg.header("jni.h")
-        .generate("../jni-sys/src/lib.rs", "all.rs");
+    }
+
+    fn lib_dir(&self) -> &'static str {
+        match self {
+            Target::Linux | Target::Darwin => "lib/server",
+            Target::Windows => "lib",
+        }
+    }
+}
+
+struct Config {
+    java_home: PathBuf,
+    target: Target,
+}
+
+impl Config {
+    fn new() -> Self {
+        let target = Target::new();
+        let java_home = env::var_os("JAVA_HOME")
+            .map(PathBuf::from)
+            .expect("'JAVA_HOME' variable set");
+
+        let native = java_home.join(target.lib_dir());
+        println!("cargo:rerun-if-env-changed=JAVA_HOME");
+        println!("cargo:rustc-link-search=native={}", native.display());
+        println!("cargo:rustc-link-lib=dylib=jvm");
+        // Increase the stack size on Windows otherwise the tests just overflow
+        // the stack.
+        if env::var("CARGO_CFG_TARGET_ENV").unwrap() == "msvc" {
+            println!("cargo:rustc-link-arg=/stack:{}", 8 * 1024 * 1024);
+        }
+
+        Self { java_home, target }
+    }
+
+    fn test(&self) -> TestGenerator {
+        let target = self.target;
+        let mut test = TestGenerator::new();
+        let mut includes = self.java_home.join("include");
+        test.include(&includes);
+        includes.push(self.target.platform_dir());
+        test.include(&includes);
+        test.skip_fn_ptrcheck(move |_| target == Target::Windows); // dllimport weirdness?
+        test.type_name(|s, is_struct, _is_union| {
+            if is_struct && (s.starts_with('_') || s.ends_with('_')) {
+                format!("struct {}", s)
+            } else {
+                s.to_string()
+            }
+        });
+        test
+    }
+}
+
+fn main() {
+    let cfg = Config::new();
+    cfg.test()
+        .skip_field(|s, _| matches!(s, "JNINativeInterface_" | "JNIInvokeInterface_")) // ctest2 isn't able to test these unions
+        .skip_type(|s| s == "va_list")
+        .skip_const(|konst| match konst {
+            "JNI_VERSION_19" => !cfg!(feature = "jni19"),
+            "JNI_VERSION_20" => !cfg!(feature = "jni20"),
+            "JNI_VERSION_21" => !cfg!(feature = "jni21"),
+            "JNI_VERSION_24" => !cfg!(feature = "jni24"),
+            _ => false,
+        })
+        .skip_signededness(|s| {
+            matches!(
+                s,
+                "jfloat"
+                    | "jdouble"
+                    | "jobject"
+                    | "jclass"
+                    | "jstring"
+                    | "jarray"
+                    | "jbooleanArray"
+                    | "jbyteArray"
+                    | "jcharArray"
+                    | "jshortArray"
+                    | "jintArray"
+                    | "jlongArray"
+                    | "jfloatArray"
+                    | "jdoubleArray"
+                    | "jobjectArray"
+                    | "jweak"
+                    | "jthrowable"
+                    | "jfieldID"
+                    | "jmethodID"
+                    | "JNIEnv"
+                    | "JavaVM"
+            )
+        })
+        .skip_roundtrip(|s| {
+            matches!(
+                s,
+                "JNINativeInterface_" | "JNIInvokeInterface_" | "jboolean"
+            )
+        }) // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
+        .export("jni");
 }
