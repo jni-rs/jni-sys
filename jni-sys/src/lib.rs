@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/jni-sys/0.3.0")]
+#![doc(html_root_url = "https://docs.rs/jni-sys/0.4.1")]
 #![allow(non_snake_case, non_camel_case_types)]
 #![warn(rust_2018_idioms, missing_debug_implementations)]
 #![no_std]
