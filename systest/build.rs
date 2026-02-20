@@ -88,5 +88,6 @@ fn main() {
         s == "jboolean" || // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
         s == "JNINativeInterface_" || s == "JNIInvokeInterface_" // ctest2 isn't able to test these unions
     });
-    cfg.header("jni.h").generate("../src/lib.rs", "all.rs");
+    cfg.header("jni.h")
+        .generate("../jni-sys/src/lib.rs", "all.rs");
 }

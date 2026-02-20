@@ -1,7 +1,7 @@
 [package]
-name = "jni-sys-macros"
-description = "Macros for jni-sys crate"
-documentation = "https://docs.rs/jni-sys-macros"
+name = "jni-sys"
+description = "Rust definitions corresponding to jni.h"
+documentation = "https://docs.rs/jni-sys"
 version.workspace = true
 authors.workspace = true
 license.workspace = true
@@ -11,10 +11,10 @@ categories.workspace = true
 keywords.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-
-[lib]
-proc-macro = true
+exclude = ["/tests"]
 
 [dependencies]
-syn = { version = "2", features = ["full"] }
-quote = "1"
+jni-sys-macros.workspace = true
+
+[dev-dependencies]
+trybuild.workspace = true
