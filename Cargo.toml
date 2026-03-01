@@ -1,7 +1,10 @@
 [package]
 name = "jni-sys"
 version = "0.4.1"
-authors = ["Steven Fackler <sfackler@gmail.com>", "Robert Bragg <robert@sixbynine.org>"]
+authors = [
+    "Steven Fackler <sfackler@gmail.com>",
+    "Robert Bragg <robert@sixbynine.org>",
+]
 license = "MIT OR Apache-2.0"
 description = "Rust definitions corresponding to jni.h"
 repository = "https://github.com/jni-rs/jni-sys"
@@ -11,19 +14,21 @@ categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
 edition = "2021"
 rust-version = "1.76.0"
-exclude = [
-    "/.github",
-    "/tests"
-]
+exclude = ["/.github", "/tests"]
+
+[[example]]
+name = "hello"
+required-features = ["jvm_examples"]
 
 [dependencies]
 jni-sys-macros = { version = "0.4.1", path = "jni-sys-macros" }
 
 [dev-dependencies]
 trybuild = "1"
+thiserror = "1"
+
+[features]
+jvm_examples = []
 
 [workspace]
-members = [
-    "systest",
-    "jni-sys-macros"
-]
+members = ["systest", "jni-sys-macros"]
