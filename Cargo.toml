@@ -28,6 +28,7 @@ trybuild = "1"
 thiserror = "1"
 
 [features]
+default = ["jvm_examples"]
 jvm_examples = []
 
 [workspace]
