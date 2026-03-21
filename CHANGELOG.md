@@ -10,15 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - GetModule was added to `JNINativeInterface` ([#22](https://github.com/jni-rs/jni-sys/pull/22))
-
-### Fixed
-
+- `JNI_VERSION_{9,10,19,20,21,24}` version definitions were added
 
 ### Changed
 
-
-### Removed
-
+- Compatible types are now re-exported from `jni-sys 0.4` to make it easier for `jobject` references
+  to be passed around between APIs depending on different versions of `jni-sys`
 
 ## [0.3.0] - 2017-07-20
 

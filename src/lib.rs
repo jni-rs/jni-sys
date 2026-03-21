@@ -18,7 +18,7 @@ pub type jfloat = f32;
 pub type jdouble = f64;
 pub type jsize = jint;
 
-pub enum _jobject {}
+pub type _jobject = jni_sys_04::_jobject;
 pub type jobject = *mut _jobject;
 pub type jclass = jobject;
 pub type jthrowable = jobject;
@@ -35,6 +35,8 @@ pub type jdoubleArray = jarray;
 pub type jobjectArray = jarray;
 pub type jweak = jobject;
 
+// Note: we can't use the semver trick to re-export jni_sys::jvalue because
+// the type for `z: jboolean` has changed from `u8` to `bool` in jni-sys 0.4
 #[repr(C)]
 #[derive(Copy)]
 pub union jvalue {
@@ -55,19 +57,12 @@ impl Clone for jvalue {
     }
 }
 
-pub enum _jfieldID {}
+pub type _jfieldID = jni_sys_04::_jfieldID;
 pub type jfieldID = *mut _jfieldID;
-pub enum _jmethodID {}
+pub type _jmethodID = jni_sys_04::_jmethodID;
 pub type jmethodID = *mut _jmethodID;
 
-#[derive(Clone, Copy)]
-#[repr(C)]
-pub enum jobjectRefType {
-    JNIInvalidRefType = 0,
-    JNILocalRefType = 1,
-    JNIGlobalRefType = 2,
-    JNIWeakGlobalRefType = 3,
-}
+pub use jni_sys_04::jobjectRefType;
 
 pub const JNI_FALSE: jboolean = 0;
 pub const JNI_TRUE: jboolean = 1;
@@ -95,19 +90,7 @@ pub const JNI_VERSION_20: jint = 0x00140000;
 pub const JNI_VERSION_21: jint = 0x00150000;
 pub const JNI_VERSION_24: jint = 0x00180000;
 
-#[repr(C)]
-#[derive(Copy)]
-pub struct JNINativeMethod {
-    pub name: *mut c_char,
-    pub signature: *mut c_char,
-    pub fnPtr: *mut c_void,
-}
-
-impl Clone for JNINativeMethod {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
+pub use jni_sys_04::JNINativeMethod;
 
 pub type JNIEnv = *const JNINativeInterface_;
 pub type JavaVM = *const JNIInvokeInterface_;
@@ -1417,19 +1400,11 @@ impl Clone for JNIEnv_ {
     }
 }
 
-#[repr(C)]
-#[derive(Copy)]
-pub struct JavaVMOption {
-    pub optionString: *mut c_char,
-    pub extraInfo: *mut c_void,
-}
+pub use jni_sys_04::JavaVMOption;
 
-impl Clone for JavaVMOption {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
+// Note: we can't use the semver trick to re-export jni_sys_04::JavaVMInitArgs
+// because it contains a `jboolean` field which has changed from `u8` to `bool`
+// in jni_sys 0.4.0, which is a breaking change.
 #[repr(C)]
 #[derive(Copy)]
 pub struct JavaVMInitArgs {
@@ -1445,19 +1420,7 @@ impl Clone for JavaVMInitArgs {
     }
 }
 
-#[repr(C)]
-#[derive(Copy)]
-pub struct JavaVMAttachArgs {
-    pub version: jint,
-    pub name: *mut c_char,
-    pub group: jobject,
-}
-
-impl Clone for JavaVMAttachArgs {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
+pub use jni_sys_04::JavaVMAttachArgs;
 
 #[repr(C)]
 #[derive(Copy)]
