@@ -9,7 +9,7 @@ jni-sys = { path = ".." }
 libc = "0.2"
 
 [build-dependencies]
-ctest2 = "0.4"
+ctest = "0.5"
 
 [features]
 jni19 = []

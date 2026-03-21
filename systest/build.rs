@@ -29,25 +29,25 @@ fn main() {
         println!("cargo:rustc-link-arg=/stack:{}", 8 * 1024 * 1024);
     }
 
-    let mut cfg = ctest2::TestGenerator::new();
+    let mut cfg = ctest::TestGenerator::new();
 
     let include_dir = java_home.join("include");
     cfg.include(&include_dir)
         .include(include_dir.join(platform_dir));
 
     cfg.skip_const(|s| {
-        (!cfg!(feature = "jni19") && s == "JNI_VERSION_19")
-            || (!cfg!(feature = "jni20") && s == "JNI_VERSION_20")
-            || (!cfg!(feature = "jni21") && s == "JNI_VERSION_21")
-            || (!cfg!(feature = "jni24") && s == "JNI_VERSION_24")
+        (!cfg!(feature = "jni19") && s.ident() == "JNI_VERSION_19")
+            || (!cfg!(feature = "jni20") && s.ident() == "JNI_VERSION_20")
+            || (!cfg!(feature = "jni21") && s.ident() == "JNI_VERSION_21")
+            || (!cfg!(feature = "jni24") && s.ident() == "JNI_VERSION_24")
     });
-    cfg.skip_type(|s| s == "va_list");
-    cfg.skip_field(|s, field| s == "jvalue" && field == "_data");
-    cfg.type_name(|s, is_struct, _is_union| {
-        if is_struct && s.ends_with('_') {
-            format!("struct {}", s)
+    cfg.skip_alias(|s| s.ident() == "va_list");
+    cfg.skip_struct(|s| s.ident() == "JNINativeInterface_" || s.ident() == "JNIInvokeInterface_"); // ctest isn't able to test varargs
+    cfg.rename_struct_ty(|s| {
+        if s.ends_with('_') {
+            Some(format!("struct {}", s))
         } else {
-            s.to_string()
+            None
         }
     });
     cfg.skip_signededness(|s| {
@@ -80,5 +80,11 @@ fn main() {
         // dllimport weirdness?
         windows
     });
-    cfg.header("jni.h").generate("../src/lib.rs", "all.rs");
+    cfg.skip_roundtrip(|s| {
+        s == "jboolean" || // We don't need to be able to roundtrip all possible u8 values for a jboolean, since only 0 are 1 are considered valid.
+        s == "JNINativeInterface_" || s == "JNIInvokeInterface_" // ctest2 isn't able to test these unions
+    });
+    cfg.header("jni.h")
+        .generate_files("../src/lib.rs", "all.rs")
+        .unwrap();
 }
