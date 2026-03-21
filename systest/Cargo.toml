@@ -5,7 +5,7 @@ authors = ["Steven Fackler <sfackler@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-jni-sys = { path = ".." }
+jni-sys = { version = "0.3", path = ".." }
 libc = "0.2"
 
 [build-dependencies]

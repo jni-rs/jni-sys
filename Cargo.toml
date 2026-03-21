@@ -11,12 +11,10 @@ categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
 edition = "2021"
 rust-version = "1.65.0"
-exclude = [
-    "/.github",
-    "/tests"
-]
+exclude = ["/.github", "/tests"]
 
 [dependencies]
+jni_sys_04 = { package = "jni-sys", version = "0.4" }
 
 [workspace]
 members = ["systest"]
