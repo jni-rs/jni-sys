@@ -84,7 +84,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --features=jni19,jni20 --examples --all
+          args: --all
       - name: Test default features
         uses: actions-rs/cargo@v1
         with:

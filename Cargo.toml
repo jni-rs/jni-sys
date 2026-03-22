@@ -15,6 +15,3 @@ exclude = ["/.github", "/tests"]
 
 [dependencies]
 jni_sys_04 = { package = "jni-sys", version = "0.4" }
-
-[workspace]
-members = ["systest"]
