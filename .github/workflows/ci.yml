@@ -55,7 +55,7 @@ jobs:
         include:
           - build: Linux MSRV
             os: ubuntu-latest
-            rust-version: 1.76.0
+            rust-version: 1.77.0
           - build: Linux
             rust-version: stable
             os: ubuntu-latest
@@ -83,5 +83,7 @@ jobs:
         run: cargo build -p jni-sys
       - name: Test
         run: cargo test -p jni-sys
+        env:
+          _JNI_SYS_TEST: "1"
 
       # Note: we don't currently run systest via CI

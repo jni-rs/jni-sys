@@ -5,8 +5,8 @@ members = ["systest", "jni-sys-macros", "jni-sys"]
 [workspace.package]
 version = "0.4.1"
 authors = [
-  "Steven Fackler <sfackler@gmail.com>",
-  "Robert Bragg <robert@sixbynine.org>",
+    "Steven Fackler <sfackler@gmail.com>",
+    "Robert Bragg <robert@sixbynine.org>",
 ]
 license = "MIT OR Apache-2.0"
 description = "Rust definitions corresponding to jni.h"
@@ -15,10 +15,11 @@ readme = "README.md"
 categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
 edition = "2021"
-rust-version = "1.76.0"
+rust-version = "1.77.0"
 exclude = ["/.github"]
 
 [workspace.dependencies]
 jni-sys-macros = { path = "jni-sys-macros" }
 jni-sys = { path = "jni-sys" }
 trybuild = "1"
+thiserror = "2"
