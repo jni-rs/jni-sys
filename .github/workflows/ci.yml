@@ -38,10 +38,7 @@ jobs:
           profile: minimal
           override: true
       - name: Run clippy
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all --tests -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
   # Security audit.
   audit:
@@ -72,20 +69,20 @@ jobs:
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.65.0
+          toolchain: 1.77.0
           profile: minimal
           override: true
       - name: Install java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '20'
+          java-version: "21"
       - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --all
+        run: cargo build --all
       - name: Test default features
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
+        run: |
+          echo "$JAVA_HOME"
+          java -XshowSettings:properties -version
+          cargo test -vv --all -- --nocapture
+        env:
+          _JNI_SYS_TEST: "1"

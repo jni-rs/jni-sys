@@ -10,8 +10,14 @@ readme = "README.md"
 categories = ["external-ffi-bindings"]
 keywords = ["java", "jni"]
 edition = "2021"
-rust-version = "1.65.0"
+rust-version = "1.77.0"
 exclude = ["/.github", "/tests"]
+
+[features]
+default = []
 
 [dependencies]
 jni_sys_04 = { package = "jni-sys", version = "0.4" }
+
+[dev-dependencies]
+thiserror = "2"
