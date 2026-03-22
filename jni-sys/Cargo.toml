@@ -18,3 +18,4 @@ jni-sys-macros.workspace = true
 
 [dev-dependencies]
 trybuild.workspace = true
+thiserror.workspace = true
