@@ -1,0 +1,17 @@
+[package]
+name = "jvm-ti-sys"
+description = "Rust definitions corresponding to jvmti.h"
+version.workspace = true
+documentation = "https://docs.rs/jvm-ti-sys"
+readme = "README.md"
+keywords = ["java", "ffi", "jvmti"]
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+jni-sys-macros.workspace = true
+jni-sys.workspace = true
