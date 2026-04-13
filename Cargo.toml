@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["systest", "jni-sys-macros", "jni-sys"]
+members = ["systest", "jni-sys-macros", "jni-sys", "jvmti-sys"]
 
 [workspace.package]
 version = "0.4.1"
@@ -21,5 +21,6 @@ exclude = ["/.github"]
 [workspace.dependencies]
 jni-sys-macros = { path = "jni-sys-macros" }
 jni-sys = { path = "jni-sys" }
+jvmti-sys = { path = "jvmti-sys", package = "jvm-ti-sys" }
 trybuild = "1"
 thiserror = "2"
